@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-r4fd7p%yi!i=u^_*v(ztd^30347)wp2&)dkk6s0wqdhz163ra(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['mqsaud-boutique-one.heroku.com', 'localhost']
 
 
 # Application definition
@@ -121,14 +121,17 @@ WSGI_APPLICATION = 'boutique_ver1.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if 'DATABASE_URL' in os.environ:
+    DATABASES = {
+        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
     }
-}
-
-
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
